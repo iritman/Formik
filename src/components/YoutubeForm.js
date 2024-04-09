@@ -52,7 +52,11 @@ const YoutubeForm = () => {
             onBlure={formik.handleBlur}
             value={formik.values.name}
           />
-          {formik.errors.name && (
+          {/* 
+          در این حالت اگر روی تکست باکس کلیک کنیم و متن آن را پاک کنیم
+          هیچ خطایی نمی دهد تا زمانی که در بیرون آن کلیک کنیم
+          */}
+          {formik.touched.name && formik.errors.name && (
             <div className="error">{formik.errors.name}</div>
           )}
         </div>
@@ -67,7 +71,7 @@ const YoutubeForm = () => {
             onBlure={formik.handleBlur}
             value={formik.values.email}
           />
-          {formik.errors.email && (
+          {formik.touched.email && formik.errors.email && (
             <div className="error">{formik.errors.email}</div>
           )}
         </div>
@@ -82,7 +86,7 @@ const YoutubeForm = () => {
             onBlure={formik.handleBlur}
             value={formik.values.channel}
           />
-          {formik.errors.channel && (
+          {formik.touched.channel && formik.errors.channel && (
             <div className="error">{formik.errors.channel}</div>
           )}
         </div>
