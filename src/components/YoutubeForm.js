@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const YoutubeForm = () => {
@@ -29,28 +29,22 @@ const YoutubeForm = () => {
         <div className="form-control">
           <label htmlFor="name">Name</label>
           <Field type="text" id="name" name="name" />
-          {formik.touched.name && formik.errors.name && (
-            <div className="error">{formik.errors.name}</div>
-          )}
+          <ErrorMessage name="name" />
         </div>
 
         <div className="form-control">
           <label htmlFor="email">E-mail</label>
           <Field type="email" id="email" name="email" />
-          {formik.touched.email && formik.errors.email && (
-            <div className="error">{formik.errors.email}</div>
-          )}
+          <ErrorMessage name="email" />
         </div>
 
         <div className="form-control">
           <label htmlFor="channel">Channel</label>
           <Field type="text" id="channel" name="channel" />
-          {formik.touched.channel && formik.errors.channel && (
-            <div className="error">{formik.errors.channel}</div>
-          )}
+          <ErrorMessage name="channel" />
         </div>
 
-        <pre>{JSON.stringify(formik.values, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(formik.values, null, 2)}</pre> */}
 
         <button type="submit">Submit</button>
       </Form>
