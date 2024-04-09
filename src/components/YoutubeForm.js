@@ -1,7 +1,15 @@
 import React from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
+// Visit: github.com/jquense/yup
 
 const YoutubeForm = () => {
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email format").required("Required"),
+    channel: Yup.string().required("Required"),
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "test", // initial value for the 'name' field
@@ -11,25 +19,26 @@ const YoutubeForm = () => {
     onSubmit: (values) => {
       console.log("Form data", values);
     },
-    validate: (values) => {
-      let errors = {};
+    validationSchema,
+    // validate: (values) => {
+    //   let errors = {};
 
-      if (!values.name) {
-        errors.name = "Required";
-      }
+    //   if (!values.name) {
+    //     errors.name = "Required";
+    //   }
 
-      if (!values.email) {
-        errors.email = "Required";
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-        errors.email = "Invalid email format";
-      }
+    //   if (!values.email) {
+    //     errors.email = "Required";
+    //   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+    //     errors.email = "Invalid email format";
+    //   }
 
-      if (!values.channel) {
-        errors.channel = "Required";
-      }
+    //   if (!values.channel) {
+    //     errors.channel = "Required";
+    //   }
 
-      return errors;
-    },
+    //   return errors;
+    // },
   });
 
   // The name of the formik fields should be the same as
@@ -37,7 +46,7 @@ const YoutubeForm = () => {
 
   //   console.log("Form values", formik.values);
   //   console.log("Form errors", formik.errors);
-  console.log("Visited fields", formik.touched);
+  //   console.log("Visited fields", formik.touched);
 
   return (
     <div>
@@ -49,7 +58,7 @@ const YoutubeForm = () => {
             id="name"
             name="name"
             onChange={formik.handleChange}
-            onBlure={formik.handleBlur}
+            onBlur={formik.handleBlur}
             value={formik.values.name}
           />
           {/* 
@@ -68,7 +77,7 @@ const YoutubeForm = () => {
             id="email"
             name="email"
             onChange={formik.handleChange}
-            onBlure={formik.handleBlur}
+            onBlur={formik.handleBlur}
             value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email && (
@@ -83,7 +92,7 @@ const YoutubeForm = () => {
             id="channel"
             name="channel"
             onChange={formik.handleChange}
-            onBlure={formik.handleBlur}
+            onBlur={formik.handleBlur}
             value={formik.values.channel}
           />
           {formik.touched.channel && formik.errors.channel && (
