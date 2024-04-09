@@ -8,16 +8,19 @@ const YoutubeForm = () => {
       email: "",
       channel: "",
     },
+    onSubmit: (values) => {
+      console.log("Form data", values);
+    },
   });
 
   // The name of the formik fields should be the same as
   // name properties in the form fields
 
-  console.log("Form values", formik.values);
+  //   console.log("Form values", formik.values);
 
   return (
     <div>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           type="text"
@@ -45,7 +48,9 @@ const YoutubeForm = () => {
           value={formik.values.channel}
         />
 
-        <button>Submit</button>
+        <pre>{JSON.stringify(formik.values, null, 2)}</pre>
+
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
