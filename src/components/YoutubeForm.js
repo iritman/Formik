@@ -7,6 +7,8 @@ const YoutubeForm = () => {
     name: "test", // initial value for the 'name' field
     email: "",
     channel: "",
+    comments: "",
+    address: "",
   };
 
   const onSubmit = (values) => {
@@ -17,7 +19,10 @@ const YoutubeForm = () => {
     name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email format").required("Required"),
     channel: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
   });
+
+  console.log(Formik.values);
 
   return (
     <Formik
@@ -40,11 +45,41 @@ const YoutubeForm = () => {
 
         <div className="form-control">
           <label htmlFor="channel">Channel</label>
-          <Field type="text" id="channel" name="channel" />
+          <Field
+            type="text"
+            id="channel"
+            name="channel"
+            placeholder="Youtubr channel name"
+          />
           <ErrorMessage name="channel" />
         </div>
 
-        {/* <pre>{JSON.stringify(formik.values, null, 2)}</pre> */}
+        <div className="form-control">
+          <label htmlFor="comments">Comments</label>
+          <Field as="textarea" id="comments" name="comments" />
+          {/* as prop mean render field element as another element */}
+          <ErrorMessage name="channel" />
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="address">Address</label>
+          <Field name="address">
+            {/* customize render props pattern */}
+            {(props) => {
+              console.log("Render props", props);
+
+              const { field, meta /* form */ } = props;
+              return (
+                <div>
+                  <input type="text" id="address" {...field} />
+                  {meta.touched && meta.error && <div>{meta.error}</div>}
+                </div>
+              );
+            }}
+          </Field>
+        </div>
+
+        {/* <pre>{JSON.stringify(Formik, null, 2)}</pre> */}
 
         <button type="submit">Submit</button>
       </Form>
