@@ -19,22 +19,17 @@ Two scenarios:
     1- Validity of the form state
     2- Form submission in progress
 
-In this code we focused on the first scenario
+In this code we focused on the second scenario
 */
 
 /*
 2>
 ---
 در لاگ فرمیک، ویژگی فقط خواندنی با نام
-isValid
-وجود دارد. اگر ویژگی 
-errors
-برابر با 
-{}
-باشد مقدار آن
+isSubmitting
+وجود دارد. اگر برابر با 
 true
-خواهد بود
-
+باشد یعنی فرم در حال ثبت شدن است
 */
 
 const YoutubeForm = () => {
@@ -52,8 +47,12 @@ const YoutubeForm = () => {
     phNumbers: [""],
   };
 
-  const onSubmit = (values) => {
+  //   4>
+  //   ---
+  const onSubmit = (values, onSubmitProps) => {
     console.log("Form data", values);
+    console.log("submit props", onSubmitProps);
+    onSubmitProps.setSubmitting(false);
   };
 
   const validationSchema = Yup.object({
@@ -79,7 +78,7 @@ const YoutubeForm = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      //   validateOnMount={true}
+      validateOnMount={true}
     >
       {(formik) => {
         console.log("Formik props", formik);
@@ -215,37 +214,33 @@ const YoutubeForm = () => {
             >
               Visit all
             </button>
-            {/*
-            1>
-            ---
-            ویژگی دیگری بنام
-            dirty
-            وجود دارد و تازمانیکه مقادیر فیلدها مخالف مقدار تنظیم اولیه آنها
-            نشده باشد مقدار آن
-            false
-            خواهد بود
-            با استفاده از این ویژگی دیگر نیاز به استفاده از ویژگی 
-            validateOnMount
-            نیست
-            */}
-            <button type="submit" disabled={!(formik.dirty && formik.isValid)}>
+
+            <button
+              type="submit"
+              disabled={!formik.isValid || formik.isSubmitting}
+            >
               Submit
             </button>
             {/*
-            2>
+            3>
             ---
-            این کد یک مشکلی دارد:
-            disabled={!(formik.dirty && formik.isValid)}
-            مشکل این است که اگر در تنظیمات اولیه، به همه  فیلدها مقدار
-            دهیم و برنامه را اجرا کنیم، بخاطر تغییر نیافتن فیلدها با مقدار
-            اولیه آنها، دکمه ثبت همچنان غیر فعال خواهد بود در صورتیکه فرم برای
-            ثبت آماده است و دیتای آن صحیح است
-            اگر یک کاراکتر از یکی از مقادیر را پاک کنیم دکمه فعال می شود
-            اما اگر دوباره همان کاراکتر را بنویسیم باز هم دکمه ثبت
-            غیر فعال می شود
-            لذا استفاده از همان روش درس قبل و تنظیم ویژگی
-            validateOnMount
-            بهتر است اما باز هم بستگی به سناریو پروژه دارد
+            بعد از اجرا و کلیک روی دکمه ثبت، در لاگ
+            یکسری لاگ ثبت می شود
+            اولی و آخری را بررسی می کنیم
+            در اولی، ویژگی
+            isSubmitting
+            برابر با
+            false
+            در میانی ها برابر با 
+            true
+            و در آخری برابر با
+            true
+            خواهد بود
+            در واقع بعد از ثبت، باید بصورت دستی ویژگی
+            isSubmitting
+            را آپدیت کرده و با 
+            false
+            تنظیم کنیم
             */}
           </Form>
         );
