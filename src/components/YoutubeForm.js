@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import TextError from "./TextError";
 
 const YoutubeForm = () => {
   const initialValues = {
@@ -34,13 +35,21 @@ const YoutubeForm = () => {
         <div className="form-control">
           <label htmlFor="name">Name</label>
           <Field type="text" id="name" name="name" />
-          <ErrorMessage name="name" />
+          {/* اگر فیلد را خالی کنیم و خطا نمایش داده شود و در مرورگر
+          inspect element
+          را چک کنیم خواهیم دید که خطا فقط یک متن خالی و ساده است */}
+          {/* 1>
+          <ErrorMessage name="name" component="div" /> */}
+          {/* 2> */}
+          <ErrorMessage name="name" component={TextError} />
         </div>
 
         <div className="form-control">
           <label htmlFor="email">E-mail</label>
           <Field type="email" id="email" name="email" />
-          <ErrorMessage name="email" />
+          <ErrorMessage name="email">
+            {(errorMsg) => <div className="error">{errorMsg}</div>}
+          </ErrorMessage>
         </div>
 
         <div className="form-control">
