@@ -1,5 +1,12 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FieldArray,
+  FastField,
+} from "formik";
 import * as Yup from "yup";
 import TextError from "./TextError";
 
@@ -69,9 +76,18 @@ const YoutubeForm = () => {
 
         <div className="form-control">
           <label htmlFor="address">Address</label>
-          <Field name="address">
+          {/* <Field name="address">
             {(props) => {
-              console.log("Render props", props);
+              
+                ما لاگ را در فیلد آدرس نوشتیم اما اگر در فیلد کانال
+                یا هر فیلد دیگری تایپ کنیم می بینیم که این دستور لاگ
+                اجرا می شود یعنی با تایپ در یک کامپوننت دیگر
+                سایر فیلدها و در وافع کل فرم رندر می شود
+                راهکار رفع این مشکل استفاده از
+                FastField
+                است
+                
+              console.log("Field render");
 
               const { field, meta } = props;
               return (
@@ -81,7 +97,31 @@ const YoutubeForm = () => {
                 </div>
               );
             }}
-          </Field>
+          </Field> */}
+          <FastField name="address">
+            {(props) => {
+              /*
+                در این کد از 
+                FastField
+                استفاده شده و مشکل قبلی مشاهده نمی شود
+                دستور لاگ تنها در زمان تایپ در فیلد آدرس
+                اجرا خواهد شد
+                FastField
+                در واقع نسخه آپتیماز شده کنترل
+                Field
+                است که مشکل رندر شدن در زمان تغییر سایر کامپوننت ها را ندارد
+                */
+              console.log("Field render");
+
+              const { field, meta } = props;
+              return (
+                <div>
+                  <input type="text" id="address" {...field} />
+                  {meta.touched && meta.error && <div>{meta.error}</div>}
+                </div>
+              );
+            }}
+          </FastField>
         </div>
 
         <div className="form-control">
@@ -94,8 +134,6 @@ const YoutubeForm = () => {
           <Field type="text" id="tweeter" name="social.tweeter" />
         </div>
 
-        {/* complete form and submit data
-            then check the console.log */}
         <div className="form-control">
           <label htmlFor="primaryPh">Primary phone number</label>
           <Field type="text" id="primaryPh" name="phoneNumbers[0]" />
@@ -110,9 +148,6 @@ const YoutubeForm = () => {
           <label>List of phone numbers</label>
           <FieldArray name="phNumbers">
             {(fieldArrayProps) => {
-              // Check 'values' field in the 'form' filed in the console
-              console.log("FieldArray props", fieldArrayProps);
-
               const { push, remove, form } = fieldArrayProps;
               const { values } = form;
               const { phNumbers } = values;
