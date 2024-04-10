@@ -10,6 +10,33 @@ import {
 import * as Yup from "yup";
 import TextError from "./TextError";
 
+/*
+1>
+---
+Disabling the submit button
+---------------------------
+Two scenarios:
+    1- Validity of the form state
+    2- Form submission in progress
+
+In this code we focused on the first scenario
+*/
+
+/*
+2>
+---
+در لاگ فرمیک، ویژگی فقط خواندنی با نام
+isValid
+وجود دارد. اگر ویژگی 
+errors
+برابر با 
+{}
+باشد مقدار آن
+true
+خواهد بود
+
+*/
+
 const YoutubeForm = () => {
   const initialValues = {
     name: "test", // initial value for the 'name' field
@@ -52,6 +79,9 @@ const YoutubeForm = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      //   4>
+      //   ---
+      validateOnMount={true}
     >
       {(formik) => {
         console.log("Formik props", formik);
@@ -159,13 +189,6 @@ const YoutubeForm = () => {
               </FieldArray>
             </div>
 
-            {/* 
-            STEP 1>
-            -------
-            در کنسول و در لیست ویژگی های فرمیک، دو ویژگی
-            validateField و validateForm
-            وجود دارد
-             */}
             <button
               type="button"
               onClick={() => formik.validateField("comments")}
@@ -175,23 +198,6 @@ const YoutubeForm = () => {
             <button type="button" onClick={() => formik.validateForm()}>
               Validate all (entire form)
             </button>
-            {/*
-            STEP 2>
-            -------
-            بعد از اجرا اگر روی دکمه 
-            Visit comments
-            کلیک کنیم، در لاگ، ویژگی
-            touched
-            فقط فیلد
-            comments
-            نمایش داده خواهد شد
-
-            اگر روی دکمه 
-            Visit all 
-            کلیک کنیم همه فیلدها در ویژگی
-            touched
-            نمایش داده خواهند شد
-            */}
             <button
               type="button"
               onClick={() => formik.setFieldTouched("comments")}
@@ -211,7 +217,22 @@ const YoutubeForm = () => {
             >
               Visit all
             </button>
-            <button type="submit">Submit</button>
+            {/*
+            3>
+            ---
+            اگر صفحه را رفرش کنیم خواهیم دید که دکمه سابمیت فعال است
+            زیرا در اولین لود صفحه، اعتبارسنجی صورت نمی گیرد و شی
+            errors
+            در فرمیک خالیست در نتیجه
+            isValid = true
+            خواهد بود
+            راه حل ،استفاده از ویژگی 
+            validateOnMount
+            در بخش 4 است
+            */}
+            <button type="submit" disabled={!formik.isValid}>
+              Submit
+            </button>
           </Form>
         );
       }}
