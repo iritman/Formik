@@ -41,6 +41,9 @@ const YoutubeForm = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      //   راهکار توضیحات پایین استفاده از این دو ویژگی است
+      validateOnChange={false}
+      validateOnBlur={false}
     >
       <Form>
         <div className="form-control">
@@ -76,43 +79,9 @@ const YoutubeForm = () => {
 
         <div className="form-control">
           <label htmlFor="address">Address</label>
-          {/* <Field name="address">
-            {(props) => {
-              
-                ما لاگ را در فیلد آدرس نوشتیم اما اگر در فیلد کانال
-                یا هر فیلد دیگری تایپ کنیم می بینیم که این دستور لاگ
-                اجرا می شود یعنی با تایپ در یک کامپوننت دیگر
-                سایر فیلدها و در وافع کل فرم رندر می شود
-                راهکار رفع این مشکل استفاده از
-                FastField
-                است
-                
-              console.log("Field render");
 
-              const { field, meta } = props;
-              return (
-                <div>
-                  <input type="text" id="address" {...field} />
-                  {meta.touched && meta.error && <div>{meta.error}</div>}
-                </div>
-              );
-            }}
-          </Field> */}
           <FastField name="address">
             {(props) => {
-              /*
-                در این کد از 
-                FastField
-                استفاده شده و مشکل قبلی مشاهده نمی شود
-                دستور لاگ تنها در زمان تایپ در فیلد آدرس
-                اجرا خواهد شد
-                FastField
-                در واقع نسخه آپتیماز شده کنترل
-                Field
-                است که مشکل رندر شدن در زمان تغییر سایر کامپوننت ها را ندارد
-                */
-              console.log("Field render");
-
               const { field, meta } = props;
               return (
                 <div>
@@ -151,6 +120,18 @@ const YoutubeForm = () => {
               const { push, remove, form } = fieldArrayProps;
               const { values } = form;
               const { phNumbers } = values;
+
+              /*
+              در لاگ لیست خطاها را مشاهده می کنیم
+              اگر در هریک از فیلدها تغییری ایجاد کنیم یا حتی روی
+              آنها کلیک کنیم و خالی ترک کنیم، تابع
+              validation
+              روی کل فرم اجرا و چک خواهد شد
+              اگر بلافاصله بعد از لود شدن صحفه روی دکمه
+              Submit
+              کلیک کنیم باز هم این تابع اجرا خواهد شد
+              */
+              console.log("Form errors", form.errors);
 
               return (
                 <div>
