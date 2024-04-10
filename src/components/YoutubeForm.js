@@ -34,16 +34,24 @@ const YoutubeForm = () => {
     email: Yup.string().email("Invalid email format").required("Required"),
     channel: Yup.string().required("Required"),
     address: Yup.string().required("Required"),
+    comments: Yup.string().required("Required"),
   });
+
+  const validateComments = (value) => {
+    let error;
+
+    if (!value) {
+      error = "Required";
+    }
+
+    return error;
+  };
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      //   راهکار توضیحات پایین استفاده از این دو ویژگی است
-      validateOnChange={false}
-      validateOnBlur={false}
     >
       <Form>
         <div className="form-control">
@@ -73,8 +81,13 @@ const YoutubeForm = () => {
 
         <div className="form-control">
           <label htmlFor="comments">Comments</label>
-          <Field as="textarea" id="comments" name="comments" />
-          <ErrorMessage name="channel" />
+          <Field
+            as="textarea"
+            id="comments"
+            name="comments"
+            validate={validateComments}
+          />
+          <ErrorMessage name="comments" component={TextError} />
         </div>
 
         <div className="form-control">
@@ -120,18 +133,6 @@ const YoutubeForm = () => {
               const { push, remove, form } = fieldArrayProps;
               const { values } = form;
               const { phNumbers } = values;
-
-              /*
-              در لاگ لیست خطاها را مشاهده می کنیم
-              اگر در هریک از فیلدها تغییری ایجاد کنیم یا حتی روی
-              آنها کلیک کنیم و خالی ترک کنیم، تابع
-              validation
-              روی کل فرم اجرا و چک خواهد شد
-              اگر بلافاصله بعد از لود شدن صحفه روی دکمه
-              Submit
-              کلیک کنیم باز هم این تابع اجرا خواهد شد
-              */
-              console.log("Form errors", form.errors);
 
               return (
                 <div>
