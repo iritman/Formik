@@ -10,6 +10,10 @@ const YoutubeForm = () => {
     channel: "",
     comments: "",
     address: "",
+    social: {
+      facebook: "",
+      tweeter: "",
+    },
   };
 
   const onSubmit = (values) => {
@@ -23,8 +27,6 @@ const YoutubeForm = () => {
     address: Yup.string().required("Required"),
   });
 
-  console.log(Formik.values);
-
   return (
     <Formik
       initialValues={initialValues}
@@ -35,12 +37,6 @@ const YoutubeForm = () => {
         <div className="form-control">
           <label htmlFor="name">Name</label>
           <Field type="text" id="name" name="name" />
-          {/* اگر فیلد را خالی کنیم و خطا نمایش داده شود و در مرورگر
-          inspect element
-          را چک کنیم خواهیم دید که خطا فقط یک متن خالی و ساده است */}
-          {/* 1>
-          <ErrorMessage name="name" component="div" /> */}
-          {/* 2> */}
           <ErrorMessage name="name" component={TextError} />
         </div>
 
@@ -66,18 +62,16 @@ const YoutubeForm = () => {
         <div className="form-control">
           <label htmlFor="comments">Comments</label>
           <Field as="textarea" id="comments" name="comments" />
-          {/* as prop mean render field element as another element */}
           <ErrorMessage name="channel" />
         </div>
 
         <div className="form-control">
           <label htmlFor="address">Address</label>
           <Field name="address">
-            {/* customize render props pattern */}
             {(props) => {
               console.log("Render props", props);
 
-              const { field, meta /* form */ } = props;
+              const { field, meta } = props;
               return (
                 <div>
                   <input type="text" id="address" {...field} />
@@ -88,7 +82,17 @@ const YoutubeForm = () => {
           </Field>
         </div>
 
-        {/* <pre>{JSON.stringify(Formik, null, 2)}</pre> */}
+        {/* complete form and submit data
+            then check the console.log */}
+        <div className="form-control">
+          <label htmlFor="facebook">Facebook profile</label>
+          <Field type="text" id="facebook" name="social.facebook" />
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="tweeter">Tweeter profile</label>
+          <Field type="text" id="tweeter" name="social.tweeter" />
+        </div>
 
         <button type="submit">Submit</button>
       </Form>
