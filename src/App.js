@@ -1,11 +1,14 @@
 import "./App.css";
 import CourseEnrollmentForm from "./forms/CourseEnrollmentForm";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
-    <div className="App">
-      <CourseEnrollmentForm />
-    </div>
+    <ChakraProvider>
+      <div className="App">
+        <CourseEnrollmentForm />
+      </div>
+    </ChakraProvider>
   );
 }
 
