@@ -21,14 +21,23 @@ Reusable Formik Controls
 */
 
 const FormikContainer = () => {
+  const dropdownOptions = [
+    { key: "Select an option", value: "" },
+    { key: "Option 1", value: "option1" },
+    { key: "Option 2", value: "option2" },
+    { key: "Option 3", value: "option3" },
+  ];
+
   const initialValues = {
     email: "",
     description: "",
+    selectOptions: "",
   };
 
   const validationSchema = Yup.object({
     email: Yup.string().required("Required"),
     description: Yup.string().required("Required"),
+    selectOptions: Yup.string().required("Required"),
   });
 
   const onSubmit = (values) => console.log("Form data", values);
@@ -52,7 +61,13 @@ const FormikContainer = () => {
               control="textarea"
               label="Description"
               name="description"
-              maxlength={5} // other props => {...rest}
+              maxLength={5} // other props => {...rest}
+            />
+            <FormikControl
+              control="select"
+              label="Select a topic"
+              name="selectOptions"
+              options={dropdownOptions}
             />
             <button type="submit">Submit</button>
           </Form>
