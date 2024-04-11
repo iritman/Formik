@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "./../components/FormikControl";
-import { Button } from "@chakra-ui/react";
+import { Box, Grid, Button } from "@mui/material";
 
 const LoginForm = () => {
   const initialValues = {
@@ -20,41 +20,57 @@ const LoginForm = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {(formik) => {
-        return (
-          <Form>
-            <FormikControl
-              control="chakrainput"
-              type="email"
-              label="Email"
-              name="email"
-            />
-            <FormikControl
-              control="chakrainput"
-              type="password"
-              label="Password"
-              name="password"
-            />
-            <Button
-              type="submit"
-              disabled={!formik.isValid}
-              mt={4}
-              colorScheme="blue"
-            >
-              Submit
-            </Button>
-            {/* <button type="submit" disabled={!formik.isValid}>
-              Submit
-            </button> */}
-          </Form>
-        );
-      }}
-    </Formik>
+    <Box mt={4} direction="column" alignContent="center">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(formik) => {
+          return (
+            <Form>
+              <Grid
+                direction="column"
+                container
+                spacing={2}
+                justifyContent="center"
+              >
+                <Grid item>
+                  <FormikControl
+                    control="muiinput"
+                    type="email"
+                    label="Email"
+                    name="email"
+                  />
+                </Grid>
+                <Grid item>
+                  <FormikControl
+                    control="muiinput"
+                    type="password"
+                    label="Password"
+                    name="password"
+                  />
+                </Grid>
+                <Grid item>
+                  <Button
+                    type="submit"
+                    disabled={!formik.isValid}
+                    mt={4}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Submit
+                  </Button>{" "}
+                  {/* <button type="submit" disabled={!formik.isValid}>
+                    Submit
+                  </button> */}
+                </Grid>
+              </Grid>
+            </Form>
+          );
+        }}
+      </Formik>
+    </Box>
   );
 };
 

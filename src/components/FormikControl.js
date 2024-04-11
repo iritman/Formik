@@ -5,6 +5,7 @@ import Select from "./Select";
 import Radio from "./Radio";
 import CheckboxGroup from "./CheckboxGroup";
 import ChakraInput from "./chakra-ui/ChakraInput";
+import MuiInput from "./mui/MuiInput";
 
 const FormikControl = (props) => {
   const { control, ...rest } = props;
@@ -22,6 +23,8 @@ const FormikControl = (props) => {
       return <CheckboxGroup {...rest} />;
     case "chakrainput":
       return <ChakraInput {...rest} />;
+    case "muiinput":
+      return <MuiInput {...rest} />;
     case "date":
     default:
       return null;
