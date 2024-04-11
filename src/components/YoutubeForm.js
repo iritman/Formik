@@ -10,6 +10,16 @@ import {
 import * as Yup from "yup";
 import TextError from "./TextError";
 
+/*
+
+Reset From Data
+---------------
+Two Scenario:
+    1- Reset by click on a reset button
+    2- Reset after submitting data
+
+*/
+
 const YoutubeForm = () => {
   const [formValues, setFormValues] = useState(null);
 
@@ -27,8 +37,6 @@ const YoutubeForm = () => {
     phNumbers: [""],
   };
 
-  // 1> Make a copy of initialValues
-  // It's a simulation of loading data from an API
   const savedValues = {
     name: "Naiem YF",
     email: "the.code.dynamo@gmail.com",
@@ -47,6 +55,8 @@ const YoutubeForm = () => {
     console.log("Form data", values);
     console.log("submit props", onSubmitProps);
     onSubmitProps.setSubmitting(false);
+    // Second Scenario
+    onSubmitProps.resetForm();
   };
 
   const validationSchema = Yup.object({
@@ -181,38 +191,10 @@ const YoutubeForm = () => {
               </FieldArray>
             </div>
 
-            {/* <button
-              type="button"
-              onClick={() => formik.validateField("comments")}
-            >
-              Validate comments
-            </button>
-            <button type="button" onClick={() => formik.validateForm()}>
-              Validate all (entire form)
-            </button>
-            <button
-              type="button"
-              onClick={() => formik.setFieldTouched("comments")}
-            >
-              Visit comments
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                formik.setTouched({
-                  name: true,
-                  email: true,
-                  channel: true,
-                  comments: true,
-                })
-              }
-            >
-              Visit all
-            </button> */}
-
             <button type="button" onClick={() => setFormValues(savedValues)}>
               Load saved data
             </button>
+            <button type="reset">Reset</button>
             <button
               type="submit"
               disabled={!formik.isValid || formik.isSubmitting}
