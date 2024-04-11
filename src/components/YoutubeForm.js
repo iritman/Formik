@@ -10,16 +10,6 @@ import {
 import * as Yup from "yup";
 import TextError from "./TextError";
 
-/*
-
-Reset From Data
----------------
-Two Scenario:
-    1- Reset by click on a reset button
-    2- Reset after submitting data
-
-*/
-
 const YoutubeForm = () => {
   const [formValues, setFormValues] = useState(null);
 
@@ -52,10 +42,9 @@ const YoutubeForm = () => {
   };
 
   const onSubmit = (values, onSubmitProps) => {
-    console.log("Form data", values);
-    console.log("submit props", onSubmitProps);
+    // console.log("Form data", values);
+    // console.log("submit props", onSubmitProps);
     onSubmitProps.setSubmitting(false);
-    // Second Scenario
     onSubmitProps.resetForm();
   };
 
