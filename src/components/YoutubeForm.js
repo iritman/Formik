@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Formik,
   Form,
@@ -10,31 +10,11 @@ import {
 import * as Yup from "yup";
 import TextError from "./TextError";
 
-/*
-1>
----
-Disabling the submit button
----------------------------
-Two scenarios:
-    1- Validity of the form state
-    2- Form submission in progress
-
-In this code we focused on the second scenario
-*/
-
-/*
-2>
----
-در لاگ فرمیک، ویژگی فقط خواندنی با نام
-isSubmitting
-وجود دارد. اگر برابر با 
-true
-باشد یعنی فرم در حال ثبت شدن است
-*/
-
 const YoutubeForm = () => {
+  const [formValues, setFormValues] = useState(null);
+
   const initialValues = {
-    name: "test", // initial value for the 'name' field
+    name: "test",
     email: "",
     channel: "",
     comments: "",
@@ -47,8 +27,22 @@ const YoutubeForm = () => {
     phNumbers: [""],
   };
 
-  //   4>
-  //   ---
+  // 1> Make a copy of initialValues
+  // It's a simulation of loading data from an API
+  const savedValues = {
+    name: "Naiem YF",
+    email: "the.code.dynamo@gmail.com",
+    channel: "The Code Dynamo",
+    comments: "Welcome to Formik",
+    address: "221b Baker Street",
+    social: {
+      facebook: "",
+      tweeter: "",
+    },
+    phoneNumbers: ["", ""],
+    phNumbers: [""],
+  };
+
   const onSubmit = (values, onSubmitProps) => {
     console.log("Form data", values);
     console.log("submit props", onSubmitProps);
@@ -75,13 +69,14 @@ const YoutubeForm = () => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formValues || initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      validateOnMount={true}
+      enableReinitialize={true}
+      //   validateOnMount={true}
     >
       {(formik) => {
-        console.log("Formik props", formik);
+        // console.log("Formik props", formik);
 
         return (
           <Form>
@@ -186,7 +181,7 @@ const YoutubeForm = () => {
               </FieldArray>
             </div>
 
-            <button
+            {/* <button
               type="button"
               onClick={() => formik.validateField("comments")}
             >
@@ -213,35 +208,17 @@ const YoutubeForm = () => {
               }
             >
               Visit all
-            </button>
+            </button> */}
 
+            <button type="button" onClick={() => setFormValues(savedValues)}>
+              Load saved data
+            </button>
             <button
               type="submit"
               disabled={!formik.isValid || formik.isSubmitting}
             >
               Submit
             </button>
-            {/*
-            3>
-            ---
-            بعد از اجرا و کلیک روی دکمه ثبت، در لاگ
-            یکسری لاگ ثبت می شود
-            اولی و آخری را بررسی می کنیم
-            در اولی، ویژگی
-            isSubmitting
-            برابر با
-            false
-            در میانی ها برابر با 
-            true
-            و در آخری برابر با
-            true
-            خواهد بود
-            در واقع بعد از ثبت، باید بصورت دستی ویژگی
-            isSubmitting
-            را آپدیت کرده و با 
-            false
-            تنظیم کنیم
-            */}
           </Form>
         );
       }}
